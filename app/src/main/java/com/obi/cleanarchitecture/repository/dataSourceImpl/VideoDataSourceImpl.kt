@@ -12,11 +12,4 @@ class VideoDataSourceImpl(
           return videoApiService.getVideos(page,per_page)
     }
 
-//    override suspend fun getSearchedNews(
-//        country: String,
-//        searchQuery: String,
-//        page: Int
-//    ): Response<VideoResponse> {
-//        return newsAPIService.getSearchedTopHeadlines(country,searchQuery,page)
-//    }
 }

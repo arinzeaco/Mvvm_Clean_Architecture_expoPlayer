@@ -19,9 +19,11 @@ class NetworkVideoViewModel @Inject constructor(app: Application,
    private val getVideoUseCase: GetVideoUseCase,
 ) : BaseViewModel(app) {
     val videsData: MutableLiveData<Resource<VideoResponse>> = MutableLiveData()
+    val loading: MutableLiveData<Boolean> = MutableLiveData()
 
 
     fun getVideo(page: Int, per_page:Int) = viewModelScope.launch(Dispatchers.IO) {
+
         videsData.postValue(Resource.Loading())
         try{
             if(AppUtils().isNetworkAvailable(context)) {

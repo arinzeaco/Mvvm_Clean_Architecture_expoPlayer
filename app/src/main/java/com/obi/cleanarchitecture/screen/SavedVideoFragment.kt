@@ -20,9 +20,5 @@ class SavedVideoFragment : Fragment() {
         return inflater.inflate(R.layout.saved_video_fragment, container, false)
     }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-////        fragmentSavedBinding = FragmentSavedBinding.bind(view)
 //
-//    }
 }
