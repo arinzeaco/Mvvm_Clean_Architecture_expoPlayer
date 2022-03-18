@@ -1,24 +1,26 @@
 package com.obi.cleanarchitecture.screen
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.AndroidViewModel
 import com.obi.cleanarchitecture.R
+import com.obi.cleanarchitecture.base.BaseFragment
 import com.obi.cleanarchitecture.databinding.SavedVideoFragmentBinding
+import com.obi.cleanarchitecture.screen.network.NetworkVideoViewModel
 
 
-class SavedVideoFragment : Fragment() {
-    private lateinit var fragmentSavedBinding: SavedVideoFragmentBinding
+class SavedVideoFragment : BaseFragment<SavedVideoFragmentBinding, AndroidViewModel>()  {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.saved_video_fragment, container, false)
+
+    private val networkVideoViewModel: NetworkVideoViewModel by activityViewModels()
+
+    override fun getLayoutId() = R.layout.saved_video_fragment
+
+    override fun getViewModel(): NetworkVideoViewModel = networkVideoViewModel
+
+
+    override fun initView() {
+
     }
 
-//
 }

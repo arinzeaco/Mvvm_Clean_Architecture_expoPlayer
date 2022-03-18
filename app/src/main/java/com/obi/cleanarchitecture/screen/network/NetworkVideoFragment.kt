@@ -22,7 +22,7 @@ class NetworkVideoFragment : BaseFragment<NetworkVideoFragmentBinding, AndroidVi
     private var isLoading = false
     private var isLastPage = false
 
-    private lateinit var newsAdapter: VideoAdapter
+    private lateinit var videoAdapter: VideoAdapter
 
     private val networkVideoViewModel: NetworkVideoViewModel by activityViewModels()
 
@@ -33,11 +33,8 @@ class NetworkVideoFragment : BaseFragment<NetworkVideoFragmentBinding, AndroidVi
 
     override fun initView() {
 
-        newsAdapter= (activity as MainActivity).videoAdapter
-//        newsAdapter.setOnItemClickListener {
-//            val bundle = Bundle().apply {
-//                putSerializable("selected_article", it)
-//            }
+        videoAdapter= (activity as MainActivity).videoAdapter
+
 //        }
         initRecyclerView()
         viewNewsList(page)
@@ -45,7 +42,7 @@ class NetworkVideoFragment : BaseFragment<NetworkVideoFragmentBinding, AndroidVi
     }
     private fun initRecyclerView() {
         viewDataBinding.rvNews.apply {
-            adapter = newsAdapter
+            adapter = videoAdapter
             layoutManager = LinearLayoutManager(activity)
             addOnScrollListener(this@NetworkVideoFragment.onScrollListener)
         }
@@ -65,13 +62,8 @@ class NetworkVideoFragment : BaseFragment<NetworkVideoFragmentBinding, AndroidVi
                     response.data?.let {
 
                         Log.i("MYTAG","came here ${it.videoDataResponses.toList().size}")
-                        newsAdapter.differ.submitList(it.videoDataResponses.toList())
-//                        if(it.totalResults%20 == 0) {
-//                            pages = it.totalResults / 20
-//                        }else{
-//                            pages = it.totalResults/20+1
-//                        }
-//                        isLastPage = page == pages
+                        videoAdapter.differ.submitList(it.videoDataResponses.toList())
+
                     }
                 }
                 is Resource.Error->{
