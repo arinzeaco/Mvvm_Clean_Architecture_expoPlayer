@@ -3,10 +3,12 @@ package com.obi.cleanarchitecture.adapter
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.obi.cleanarchitecture.VideoDataResponse
 import com.obi.cleanarchitecture.databinding.NewsListItemBinding
 import com.google.android.exoplayer2.ExoPlayer
@@ -55,31 +57,61 @@ class VideoAdapter:RecyclerView.Adapter<VideoAdapter.NewsViewHolder>(), Player.L
         val binding:NewsListItemBinding, var context: Context?, ):
         RecyclerView.ViewHolder(binding.root){
         fun bind(article: VideoDataResponse){
-            Log.i("MYTAG","came here ${article.image}")
 
             binding.tvUserHandle.text = article.height.toString()
-            binding.playerView
-
             mPlayer = ExoPlayer.Builder(context!!).build()
 
             binding.playerView.player = mPlayer
             mPlayer!!.playWhenReady = true
+            Glide.with(binding.ivMediaCoverImage.context).
+            load(article.image).
+            into(binding.ivMediaCoverImage)
+            mPlayer!!.setMediaSource(AppUtils().buildMediaSource(article.video_files[0].link))
 
-            mPlayer!!.setMediaSource(AppUtils().buildMediaSource(article.video_files[1].link))
+            mPlayer!!.addListener(object : Player.Listener { // player listener
 
+                override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+                    when (playbackState) { // check player play back state
+                        Player.STATE_READY -> {
+                            Log.i("TAG_Adapter","Ready")
+                            Glide.with(binding.ivMediaCoverImage.context).
+                            load(article.image).
+                            into(binding.ivMediaCoverImage)
+                        }
+                        Player.STATE_ENDED -> {
+                            binding.ivMediaCoverImage.visibility= View.VISIBLE
+                            Log.i("TAG_Adapter","Video has ended")
+                        }
+                        Player.STATE_BUFFERING ->{
+                            Log.i("TAG_Adapter","Video has ended")
+                        }
+                        Player.STATE_IDLE -> {
+                            Log.i("TAG_Adapter","Video has ended")
 
-            mPlayer!!.prepare()
-
-            binding.root.setOnClickListener {
-                onItemClickListener?.let {
-                    it(article)
+                        }
+                        else -> {
+                        }
+                    }
                 }
+            })
+
+            binding.ivMediaCoverImage.setOnClickListener {
+                binding.ivMediaCoverImage.visibility= View.GONE
+                mPlayer!!.prepare()
+//                onItemClickListener?.let {
+//
+//
+//                }
             }
+
         }
     }
 
     private var onItemClickListener :((VideoDataResponse)->Unit)?=null
 
+    fun setOnItemClickListener(listener : (VideoDataResponse)->Unit){
+        onItemClickListener = listener
+    }
 
 }
 

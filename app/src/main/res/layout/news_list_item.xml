@@ -34,8 +34,7 @@
             app:layout_constraintBottom_toTopOf="@+id/playerView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            app:srcCompat="@drawable/ic_user"
-            />
+            app:srcCompat="@drawable/ic_user" />
 
         <TextView
             android:id="@+id/tvUserHandle"
@@ -50,37 +49,32 @@
             app:layout_constraintTop_toTopOf="@+id/imageView"
             />
 
-<!--        <FrameLayout-->
-<!--            android:id="@+id/mediaContainer"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="300dp"-->
-<!--            android:layout_marginBottom="8dp"-->
-<!--            android:layout_marginEnd="8dp"-->
-<!--            android:layout_marginStart="8dp"-->
-<!--            android:adjustViewBounds="true"-->
-<!--            android:gravity="center"-->
-<!--            android:scaleType="center"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/imageView"-->
-<!--            >-->
 
-                <com.google.android.exoplayer2.ui.PlayerView
-                    android:id="@+id/playerView"
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/playerView"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintDimensionRatio="4:6"
+            android:layout_gravity="center"
+
+            />
+                <ImageView
+                    android:id="@+id/ivMediaCoverImage"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:adjustViewBounds="true"
-                    android:gravity="center"
-                    android:scaleType="center"
+                    android:layout_height="250dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintDimensionRatio="4:6"
+                    android:layout_gravity="center"
+
                     />
+
 <!--                <ProgressBar-->
 <!--                    android:id="@+id/progressBar"-->
 <!--                    android:layout_width="wrap_content"-->
@@ -101,7 +95,6 @@
 <!--                    android:scaleType="centerCrop"-->
 <!--                    android:src="@drawable/ic_volume_on"-->
 <!--                    />-->
-<!--        </FrameLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

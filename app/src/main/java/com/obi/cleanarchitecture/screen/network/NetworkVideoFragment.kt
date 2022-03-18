@@ -9,12 +9,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.obi.cleanarchitecture.R
-import com.obi.cleanarchitecture.VideoDataResponse
 import com.obi.cleanarchitecture.adapter.VideoAdapter
 import com.obi.cleanarchitecture.base.BaseFragment
 import com.obi.cleanarchitecture.databinding.NetworkVideoFragmentBinding
 import com.obi.cleanarchitecture.screen.mainact.MainActivity
-import com.obi.cleanarchitecture.screen.mainact.MainActivityViewModel
 import com.obi.cleanarchitecture.util.Resource
 
 
@@ -35,8 +33,12 @@ class NetworkVideoFragment : BaseFragment<NetworkVideoFragmentBinding, AndroidVi
 
     override fun initView() {
 
-        newsAdapter= (activity as MainActivity).newsAdapter
-
+        newsAdapter= (activity as MainActivity).videoAdapter
+//        newsAdapter.setOnItemClickListener {
+//            val bundle = Bundle().apply {
+//                putSerializable("selected_article", it)
+//            }
+//        }
         initRecyclerView()
         viewNewsList(page)
 
@@ -57,10 +59,19 @@ class NetworkVideoFragment : BaseFragment<NetworkVideoFragmentBinding, AndroidVi
         networkVideoViewModel.videsData.observe(viewLifecycleOwner,{response->
             when(response){
                 is Resource.Success->{
+
                     hideProgressBar()
 
                     response.data?.let {
+
+                        Log.i("MYTAG","came here ${it.videoDataResponses.toList().size}")
                         newsAdapter.differ.submitList(it.videoDataResponses.toList())
+//                        if(it.totalResults%20 == 0) {
+//                            pages = it.totalResults / 20
+//                        }else{
+//                            pages = it.totalResults/20+1
+//                        }
+//                        isLastPage = page == pages
                     }
                 }
                 is Resource.Error->{
@@ -104,7 +115,11 @@ class NetworkVideoFragment : BaseFragment<NetworkVideoFragmentBinding, AndroidVi
             val topPosition = layoutManager.findFirstVisibleItemPosition()
 
             val hasReachedToEnd = topPosition+visibleItems >= sizeOfTheCurrentList
-//            val shouldPaginate = !isLoading && !isLastPage && hasReachedToEnd && isScrolling
+            val shouldPaginate = !isLoading && !isLastPage && hasReachedToEnd && isScrolling
+            if(shouldPaginate){
+                page++
+//               viewNewsList(page)
+                }
 
 
                 isScrolling = false

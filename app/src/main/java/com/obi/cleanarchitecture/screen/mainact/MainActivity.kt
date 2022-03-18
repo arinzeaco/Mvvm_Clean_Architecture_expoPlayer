@@ -16,7 +16,7 @@ class MainActivity : BaseActivity< ActivityMainBinding,AndroidViewModel>() {
 
 
     @Inject
-    lateinit var newsAdapter: VideoAdapter
+    lateinit var videoAdapter: VideoAdapter
 
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
