@@ -1,19 +1,17 @@
 package com.obi.cleanarchitecture.screen.network
 
-import android.util.Log
 import android.view.View
 import android.widget.AbsListView
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.AndroidViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.obi.cleanarchitecture.R
+import com.obi.cleanarchitecture.VideoDataResponse
 import com.obi.cleanarchitecture.adapter.VideoAdapter
 import com.obi.cleanarchitecture.base.BaseFragment
 import com.obi.cleanarchitecture.databinding.NetworkVideoFragmentBinding
 import com.obi.cleanarchitecture.screen.mainact.MainActivity
-import com.obi.cleanarchitecture.util.Resource
 
 
 class NetworkVideoFragment : BaseFragment<NetworkVideoFragmentBinding, AndroidViewModel>()  {
@@ -23,6 +21,7 @@ class NetworkVideoFragment : BaseFragment<NetworkVideoFragmentBinding, AndroidVi
     private var isLastPage = false
 
     private lateinit var videoAdapter: VideoAdapter
+    private var listMerchants = mutableListOf<VideoDataResponse>()
 
     private val networkVideoViewModel: NetworkVideoViewModel by activityViewModels()
 
@@ -35,61 +34,37 @@ class NetworkVideoFragment : BaseFragment<NetworkVideoFragmentBinding, AndroidVi
 
         videoAdapter= (activity as MainActivity).videoAdapter
 
-//        }
         initRecyclerView()
         viewNewsList(page)
-
     }
+
+    private fun showProgressBar(){
+        networkVideoViewModel.progressBar.observe(this) {
+            if(it) viewDataBinding.progressBar.visibility = View.VISIBLE
+            else viewDataBinding.progressBar.visibility = View.GONE
+        }
+    }
+
     private fun initRecyclerView() {
+        showProgressBar()
         viewDataBinding.rvNews.apply {
             adapter = videoAdapter
             layoutManager = LinearLayoutManager(activity)
             addOnScrollListener(this@NetworkVideoFragment.onScrollListener)
         }
-
     }
-
 
     private fun viewNewsList(page: Int) {
-
         networkVideoViewModel.getVideo(page,5)
+
         networkVideoViewModel.videsData.observe(viewLifecycleOwner,{response->
-            when(response){
-                is Resource.Success->{
+            listMerchants.addAll(response.videoDataResponses)
+            videoAdapter.differ.submitList(listMerchants.toList())
 
-                    hideProgressBar()
-
-                    response.data?.let {
-
-                        Log.i("MYTAG","came here ${it.videoDataResponses.toList().size}")
-                        videoAdapter.differ.submitList(it.videoDataResponses.toList())
-
-                    }
-                }
-                is Resource.Error->{
-                    hideProgressBar()
-                    response.message?.let {
-                        Toast.makeText(activity,"An error occurred : $it", Toast.LENGTH_LONG).show()
-                    }
-                }
-
-                is Resource.Loading->{
-                    showProgressBar()
-                }
-
-            }
         })
+
     }
 
-    private fun showProgressBar(){
-        isLoading = true
-        viewDataBinding.progressBar.visibility = View.VISIBLE
-    }
-
-    private fun hideProgressBar(){
-        isLoading = false
-        viewDataBinding.progressBar.visibility = View.INVISIBLE
-    }
 
     private val onScrollListener = object : RecyclerView.OnScrollListener(){
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -108,10 +83,12 @@ class NetworkVideoFragment : BaseFragment<NetworkVideoFragmentBinding, AndroidVi
 
             val hasReachedToEnd = topPosition+visibleItems >= sizeOfTheCurrentList
             val shouldPaginate = !isLoading && !isLastPage && hasReachedToEnd && isScrolling
-            if(shouldPaginate){
-                page++
-//               viewNewsList(page)
-                }
+            if(shouldPaginate) {
+//                if (page < 2) {
+//                    page++
+                    viewNewsList(page)
+//                }
+            }
 
 
                 isScrolling = false

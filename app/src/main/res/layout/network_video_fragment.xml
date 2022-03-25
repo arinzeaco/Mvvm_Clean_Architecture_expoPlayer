@@ -30,11 +30,11 @@
         android:padding="5dp">
     </androidx.recyclerview.widget.RecyclerView>
 
-
+<!--    android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}"-->
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
-        android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
