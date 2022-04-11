@@ -25,7 +25,7 @@
             app:navGraph="@navigation/nav_graph" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bnv_news"
+            android:id="@+id/bnv_vid"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -33,5 +33,6 @@
             app:itemTextColor="@color/black"
             app:itemIconTint="@color/black"
             app:menu="@menu/bottom_menu" />
+
     </LinearLayout>
 </layout>

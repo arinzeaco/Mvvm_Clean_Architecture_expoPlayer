@@ -28,8 +28,9 @@ class MainActivity : BaseActivity< ActivityMainBinding,AndroidViewModel>() {
     override fun initView() {
                 val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.fragment) as NavHostFragment
+
         val navController = navHostFragment.navController
-        viewDataBinding.bnvNews.setupWithNavController(
+        viewDataBinding.bnvVid.setupWithNavController(
             navController
         )
 
