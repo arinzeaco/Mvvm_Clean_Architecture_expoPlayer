@@ -39,8 +39,7 @@ class NetModule {
             var request = chain.request()
 
             request = request.newBuilder()
-                 //get your own authorization key and put it here
-                .addHeader("Authorization", "")
+                .addHeader("Authorization", "563492ad6f9170000100000121990e1531814e43b02b4a4b3d243ef4")
                 .addHeader("Content-type", "application/json")
                 .build()
 
